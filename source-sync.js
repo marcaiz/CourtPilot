@@ -1,12 +1,16 @@
 'use strict';
 const sourceStatus = document.querySelector('#csv-status');
 let nextRefreshAt = null;
+let countdownAnchor = null;
 let timerFlashTimeout = null;
 let syncMessage = 'Connessione al server…';
 function updateCountdown() {
   const timer = document.querySelector('#csv-timer');
   const bar = document.querySelector('#csv-progress-bar');
-  const seconds = nextRefreshAt ? Math.max(0, (nextRefreshAt - Date.now()) / 1000) : null;
+  // Usa l'orologio del server e il tempo monotono: il fuso e l'ora del telefono
+  // non possono spostare il conto alla rovescia rispetto al PC.
+  const seconds = countdownAnchor ? Math.max(0,
+    (countdownAnchor.remainingMs - (performance.now() - countdownAnchor.receivedAt)) / 1000) : null;
   // Manteniamo lo span usato dal design per l'unita di misura.
   if (timer) {
     const value = seconds === null ? '—' : String(Math.ceil(seconds / 60));
@@ -28,9 +32,12 @@ function updateCountdown() {
 }
 async function loadPlanning() {
   try {
-    const response = await CourtPilotAPI.fetch('/api/bookings', { cache: 'no-store', signal: AbortSignal.timeout(15000) });
+    const response = await CourtPilotAPI.fetch('/api/bookings', { cache: 'no-store', timeoutMs: 90000 });
     const result = await response.json();
     nextRefreshAt = Date.parse(result.nextRunAt) || null;
+    const serverNow = Date.parse(result.serverNow);
+    countdownAnchor = nextRefreshAt && Number.isFinite(serverNow)
+      ? { remainingMs: nextRefreshAt - serverNow, receivedAt: performance.now() } : null;
     syncMessage = result.syncing ? 'Sincronizzazione in corso…' :
       result.error ? 'Prossimo tentativo automatico · collegamento da verificare' :
       'Aggiornamento automatico ogni 30 minuti';
@@ -56,7 +63,8 @@ async function loadPlanning() {
   } catch (error) {
     if (error instanceof TypeError || error.name === 'TimeoutError' || error.name === 'SyntaxError') {
       nextRefreshAt = null;
-      syncMessage = 'Server non raggiungibile: avvia CourtPilot con npm start.';
+      countdownAnchor = null;
+      syncMessage = 'Backend non raggiungibile o in riavvio. Nuovo tentativo automatico.';
     }
     updateCountdown();
     sourceStatus.textContent = `${error.message} Nessun nuovo dato applicato.`;

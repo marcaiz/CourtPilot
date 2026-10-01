@@ -42,9 +42,12 @@ window.CourtPilotAPI = (() => {
   return {
     async fetch(path, options = {}) {
       await ready;
+      // Il timeout parte dopo l'accesso, non mentre l'utente inserisce la chiave.
+      const { timeoutMs = 90000, ...requestOptions } = options;
       const headers = new Headers(options.headers);
       headers.set('X-CourtPilot-Access', key);
-      const response = await fetch(base + path, { ...options, headers });
+      const response = await fetch(base + path, { ...requestOptions, headers,
+        signal: options.signal || AbortSignal.timeout(timeoutMs) });
       if (response.status === 401) {
         sessionStorage.removeItem('courtpilot-access');
         key = '';
