@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#123d32">
+    <meta name="description" content="Il planning energetico di Bestennis Academy, campo per campo.">
+
+    <title>CourtPilot · Bestennis Academy</title>
+
+    <link rel="icon" type="image/svg+xml"
+          href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23123d32'/%3E%3Cpath d='M9 7h14v18H9zM9 16h14M13 7v18M19 7v18' fill='none' stroke='%23b7f27d' stroke-width='1.5'/%3E%3C/svg%3E">
+
+    <link rel="stylesheet" href="styles.css">
+<link rel="manifest" href="./manifest.webmanifest"></head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <a class="brand" href="#planning">
+            <span class="brandmark">▥</span>
+            CourtPilot<span class="brand-dot">.</span>
+        </a>
+
+        <div class="club">
+            <span class="club-icon">B</span>
+            <div>
+                <strong>Bestennis Academy</strong>
+                <small>Cinisello Balsamo</small>
+            </div>
+        </div>
+
+        <p class="nav-label">IL TUO CIRCOLO</p>
+
+        <nav aria-label="Navigazione principale">
+            <button class="nav active" data-view="planning">
+                <span>◷</span>Planning<span class="nav-arrow">↗</span>
+            </button>
+            <button class="nav" data-view="bookings">
+                <span>▦</span>Prenotazioni
+            </button>
+            <button class="nav" data-view="rules"><span>⚙</span>Regole</button><button class="nav" data-view="notifications">
+                <span>♧</span>Notifiche
+            </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="mini-court" aria-hidden="true"></div>
+            <strong>Una cosa in meno<br>a cui pensare.</strong>
+            <p>Il campo pronto,<br>al momento giusto.</p>
+            <div class="club-address">
+                Via E. de Amicis, 80<br>
+                Cinisello Balsamo · MI
+            </div>
+        </div>
+    </aside>
+
+    <!-- WORKSPACE -->
+    <div class="workspace">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <span>
+                Bestennis Academy <span class="slash">/</span>
+                <span id="breadcrumb">Planning</span>
+            </span>
+
+            <span class="preview-label">Anteprima · dati JSON</span>
+            <span class="avatar" title="Bestennis Academy">BA</span>
+        </header>
+
+        <main>
+
+            <!-- PAGE HEADING -->
+            <div class="page-heading">
+                <div>
+                    <p class="eyebrow">GESTIONE CAMPI</p>
+                    <h1 id="page-title">Tutto sotto controllo<span>.</span></h1>
+                    <p id="subtitle">Il planning del tuo circolo, dal primo servizio all’ultima partita.</p>
+                </div>
+
+                <a class="manager-link"
+                   href="https://manager.playtomic.io/dashboard/schedule?tid=7990ff4f-0bdb-4eb7-9f95-327d39b58f75"
+                   target="_blank" rel="noopener">
+                    Apri Playtomic <span>↗</span>
+                </a>
+            </div>
+
+            <!-- PLANNING VIEW -->
+            <section id="planning-view">
+
+                <!-- SUMMARY GRID -->
+                <div class="summary-grid">
+
+                    <!-- LUCI -->
+                    <article class="summary dark">
+                        <div class="summary-top">
+                            LUCI, AL MOMENTO GIUSTO <span class="sun">☼</span>
+                        </div>
+
+                        <div class="rule-pair">
+                            <div>
+                                <strong>−5<span>min</span></strong>
+                                <p>prima della partita</p>
+                            </div>
+
+                            <span class="rule-line"></span>
+
+                            <div>
+                                <strong>+5<span>min</span></strong>
+                                <p>dopo la partita</p>
+                            </div>
+                        </div>
+
+                        <div class="summary-foot">
+                            Partite consecutive? Le luci restano accese.
+                        </div>
+                    </article>
+
+                    <!-- PRENOTAZIONI -->
+                    <article class="summary">
+                        <span class="summary-label">Prenotazioni valide <span>▦</span></span>
+                        <strong class="metric" id="booking-count">—</strong>
+                        <p><span id="canceled-count">—</span> cancellate escluse dal planning</p>
+                    </article>
+
+                    <!-- ORE LUCI -->
+                    <article class="summary">
+                        <span class="summary-label">Ore di illuminazione <span>☼</span></span>
+                        <strong class="metric" id="light-hours">—</strong>
+                        <p>Totale delle fasce, su tutti i campi</p>
+                    </article>
+
+                    <!-- NUOVO RIQUADRO: RISCLADAMENTO -->
+                  <article class="summary dark warmup">
+                    <div class="summary-top">
+                        CALDO, MA NON TROPPO <span class="sun">♨</span>
+                    </div>
+
+                    <div class="rule-pair">
+                        <div>
+                            <strong>—<span> min</span></strong>
+                            <p>prima dell’attività</p>
+                        </div>
+
+                        <span class="rule-line"></span>
+
+                        <div>
+                            <strong>—<span> min</span></strong>
+                            <p>dopo l’attività</p>
+                        </div>
+                    </div>
+
+                    <div class="summary-foot">
+                        Regole da definire insieme.
+                    </div>
+                </article>
+
+
+                     <!-- COUNTDOWN  -->
+                  <article class="summary update">
+                    <span class="summary-label">Prossimo aggiornamento <span>↻</span></span>
+
+                    <strong class="metric" id="csv-timer">30<span> min</span></strong>
+
+                    <div class="csv-progress">
+                        <div class="csv-progress-bar" id="csv-progress-bar"></div>
+                    </div>
+
+                    <p>Aggiornamento automatico ogni 30 minuti</p><p id="csv-status" role="status" aria-live="polite">Connessione in corso…</p>
+                </article>
+
+
+
+                     <!-- ORE RISCALDAMENTO  -->
+                   <article class="summary warmup-total">
+                        <span class="summary-label">Riscaldamento totale <span>♨</span></span>
+                        <strong class="metric" id="warmup-total">—</strong>
+                        <p>In attesa delle regole</p>
+                    </article>
+
+
+
+
+
+                </div>
+
+                <!-- BOARD -->
+                <section class="board">
+
+                    <div class="board-toolbar">
+                        <div class="board-heading">
+                            <h2>La giornata, campo per campo</h2>
+                            <p>Verde: luci accese · rosso: 5 minuti prima della prima partita · azzurro: partite.</p>
+                        </div>
+
+                        <input id="date" type="date" aria-label="Giorno del planning" value="2026-09-28">
+                    </div>
+
+                    <div class="board-filters">
+                        <div class="segmented" aria-label="Filtra per sport">
+                            <button class="selected" data-sport="all">Tutti i campi</button>
+                            <button data-sport="TENNIS">Tennis</button>
+                            <button data-sport="PADEL">Padel</button>
+                            <button data-sport="PALESTRA">Palestra</button>
+                        </div>
+
+                       <span class="legend">
+                        <i style="background:#c8f3c2"></i>Luci accese
+                        <i style="background:#6a7b70"></i>Riscaldamento (da definire)
+                        <i style="background:#ff6b6b"></i>Warmup luci · 5 min
+                        <i style="background:#8ec7ff"></i>Partita
+                        
+                    </span>
+
+                    </div>
+
+                    <div class="timeline-scroll">
+                        <div id="timeline"></div>
+                    </div>
+
+                    <div class="board-footer"><span id="heating-rule-summary">♨ Riscaldamento disattivato</span>
+                        <span>☼ Accendi 5 min prima · Spegni 5 min dopo</span>
+                        
+                    </div>
+
+                </section>
+
+            </section>
+
+            <!-- BOOKINGS VIEW -->
+            <section id="bookings-view" hidden>
+                <div class="board">
+                    <div class="board-toolbar">
+                        <div>
+                            <h2>Prenotazioni esportate</h2>
+                            <p>28 settembre 2026 · nessun dato personale dei giocatori</p>
+                        </div>
+                    </div>
+
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Campo</th>
+                                    <th>Inizio</th>
+                                    <th>Fine</th>
+                                    <th>Stato</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookings"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="rules-view" hidden>
+                <form id="rules-form" class="rules-form">
+                    <article class="board rules-card">
+                        <p class="eyebrow">ILLUMINAZIONE</p><h2>Le luci del campo</h2>
+                        <p>Le fasce consecutive si uniscono automaticamente.</p>
+                        <div class="rules-inputs">
+                            <label>Accendi prima della partita<div><input id="lights-before" type="number" min="0" max="240" step="1" required value="5"><span>min prima</span></div></label>
+                            <label>Spegni dopo la partita<div><input id="lights-after" type="number" min="0" max="240" step="1" required value="5"><span>min dopo</span></div></label>
+                        </div>
+                    </article>
+                    <article class="board rules-card">
+                        <p class="eyebrow">TEMPERATURA</p><h2>Il riscaldamento</h2>
+                        <label class="heating-switch"><input id="heating-enabled" type="checkbox"> Attiva il planning del riscaldamento</label>
+                        <div class="rules-inputs">
+                            <label>Accendi prima della partita<div><input id="heating-before" type="number" min="0" max="240" step="1" required value="0"><span>min prima</span></div></label>
+                            <label>Spegni dopo la partita<div><input id="heating-after" type="number" min="0" max="240" step="1" required value="0"><span>min dopo</span></div></label>
+                        </div>
+                    </article>
+                    <article class="board rules-card">
+                        <p class="eyebrow">PROMEMORIA LUCI</p><h2>Quando vuoi essere avvisato?</h2>
+                        <p>Gli avvisi sono separati dagli orari operativi. Zero minuti significa avviso a inizio o fine partita.</p>
+                        <div class="rules-inputs">
+                            <label>Avviso per accendere le luci<div><input id="notifications-before" type="number" min="0" max="240" step="1" required value="10"><span>min prima dell’inizio</span></div></label>
+                            <label>Avviso per spegnere le luci<div><input id="notifications-after" type="number" min="0" max="240" step="1" required value="5"><span>min prima della fine</span></div></label>
+                        </div>
+                    </article>
+                    <article class="board rules-card">
+                        <p class="eyebrow">PROMEMORIA RISCALDAMENTO</p><h2>Il caldo, senza dimenticanze.</h2>
+                        <p>Avvisi attivi soltanto con il riscaldamento abilitato. Zero minuti significa avviso a inizio o fine partita.</p>
+                        <div class="rules-inputs">
+                            <label>Avviso per accendere il riscaldamento<div><input id="heatingNotifications-before" type="number" min="0" max="240" step="1" required value="10"><span>min prima dell’inizio</span></div></label>
+                            <label>Avviso per spegnere il riscaldamento<div><input id="heatingNotifications-after" type="number" min="0" max="240" step="1" required value="5"><span>min prima della fine</span></div></label>
+                        </div>
+                    </article>
+                    <div class="rules-save"><button class="notification-primary" type="submit">Salva regole</button><button class="notification-secondary" id="rules-cancel" type="button">Annulla modifiche</button><p id="rules-status" role="status">Caricamento regole…</p></div>
+                    <p class="notification-note">Le modifiche aggiornano subito l’anteprima del Planning. Salva per applicarle al server e agli altri dispositivi. Gli anticipi si applicano agli avvisi futuri; lo storico rimane invariato. Il testo indica gli orari operativi configurati.</p>
+                </form>
+            </section>
+            <!-- NOTIFICATIONS VIEW -->
+            <section id="notifications-view" hidden>
+                <div class="notification-settings board">
+                    <div><p class="eyebrow">IL TUO TURNO</p><h2>Le luci, al momento giusto.</h2>
+                    <p id="shift-status">Fuori turno · nessuna push</p></div>
+                    <div class="notification-buttons"><button id="shift-toggle" class="notification-primary">Inizio turno</button><button id="enable-push" class="notification-secondary">Attiva push</button></div>
+                    <p class="notification-note" id="notification-timing">Gli anticipi seguono la pagina Regole. Il turno termina automaticamente dopo 8 ore.</p>
+                    <p class="notification-note">Partite consecutive: un solo avviso per ciascuna accensione e spegnimento. Gli orari operativi seguono la pagina Regole.</p>
+                    <p id="notification-status" role="status" class="notification-note">Collegamento al servizio notifiche…</p>
+                </div>
+                <section class="board notification-history">
+                    <div class="board-toolbar"><div><p class="eyebrow">STORICO</p><h2>I tuoi promemoria</h2></div>
+                    <div class="filters"><button class="selected" data-reminder-filter="pending">Da fare</button><button data-reminder-filter="done">Fatti</button><button data-reminder-filter="all">Tutti</button></div></div>
+                    <div id="notification-list" class="reminder-list">I promemoria compariranno qui al loro orario.</div>
+                </section>
+                <section class="board notification-history">
+                    <div class="board-toolbar"><h2>In programma</h2><span class="count-pill">Prossimi avvisi</span></div>
+                    <div id="notification-upcoming" class="reminder-list">In attesa del planning.</div>
+                </section>
+                <p class="notification-note">Su iPhone: apri il link HTTPS in Safari, aggiungi CourtPilot alla schermata Home e attiva le push dall’app. La posizione automatica non è attiva: usa Inizio turno e Fine turno.</p>
+            </section>
+            <!-- FOOTER -->
+            <footer>
+                COURTPILOT
+                <span>Bestennis Academy · Planning operativo</span>
+                <span>Anteprima su dati del 28.09.2026</span>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- DETAIL DIALOG -->
+    <dialog id="detail">
+        <button id="close-detail" aria-label="Chiudi dettagli">×</button>
+        <p class="eyebrow">PIANO LUCI</p>
+        <h2 id="detail-title"></h2>
+        <div id="detail-content"></div>
+    </dialog>
+
+    <!-- SCRIPTS -->
+    
+    <script src="api-client.js"></script><script src="app.js"></script>
+    <script src="auto-refresh.js"></script>
+    <script src="source-sync.js"></script><script src="notifications.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
